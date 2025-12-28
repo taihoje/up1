@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tesouro da Sorte</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #003a9b;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            color: white;
+        }
+
+        .container {
+            max-width: 450px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .logo {
+            width: 80%;
+            margin: 20px auto;
+        }
+
+        .texto-explica {
+            font-size: 20px;
+            line-height: 1.4;
+            margin-bottom: 30px;
+        }
+
+        #videoSlot {
+            position: relative;
+            z-index: 1;
+        }
+
+        .botao-spin {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: #ffe066;
+            margin: 40px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 40px;
+            cursor: pointer;
+            border: 4px solid #ffcc00;
+            box-shadow: 0 0 20px rgba(255, 255, 0, 0.5);
+            margin-top: -90px;
+            animation: pulse 0.8s infinite ease-in-out;
+            transition: 0.3s ease;
+            position: relative;
+            z-index: 10;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.12); }
+            100% { transform: scale(1); }
+        }
+
+        .tentativas {
+            margin-top: 10px;
+            font-size: 22px;
+        }
+        .botao-spin.escondido {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+#overlay-inicial {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+}
+
+#overlay-inicial img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#overlay-inicial {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+
+    /* Fundo transparente borrado */
+    backdrop-filter: blur(3px);
+    background: rgba(0, 0, 0, 0.25);
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Move para cima */
+    padding-top: 40px; /* Distância do topo */
+
+    z-index: 99999;
+    transition: opacity 0.4s ease;
+}
+
+#overlay-inicial img {
+    width: 300px;
+    height: auto;
+}
+
+
+
+.video-wrapper {
+    position: relative;
+    width: 330px;
+    margin: 40px auto;
+}
+
+.bg-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+    border-radius: 24px;
+    z-index: 1;
+}
+
+#videoSlot {
+    position: relative;
+    z-index: 2;
+    border-radius: 24px;
+    width: 100%;
+    display: block;
+}
+
+/* POPUP */
+#popup-premio {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 20, 90, 0.45); 
+    backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .4s ease;
+}
+
+#popup-premio.mostrar {
+    opacity: 1;
+    visibility: visible;
+}
+
+.popup-box {
+    background: #1f3dbb; /* Azul da imagem enviada */
+    width: 85%;
+    max-width: 380px;
+    padding: 25px;
+    border-radius: 18px;
+    text-align: center;
+    box-shadow: 0 0 25px rgba(0,0,0,0.25);
+}
+
+.popup-box img {
+    width: 100%;
+    border-radius: 14px;
+    margin-bottom: 20px;
+}
+
+.btn-resgatar {
+    background: #ffffff;
+    color: #1f3dbb;
+    font-size: 20px;
+    padding: 14px 22px;
+    border-radius: 10px;
+    display: block;
+    margin: 15px auto 0 auto;
+    width: 80%;
+    font-weight: bold;
+    text-decoration: none;
+    transition: .2s;
+}
+
+.btn-resgatar:hover {
+    background: #eaeaea;
+}
+
+    </style>
+</head>
+
+
+<body>
+    
+<!-- TELA DE BOAS-VINDAS (4s ou clique) -->
+<div id="overlay-inicial">
+    <img src="images/tela.png" alt="Tela Inicial">
+</div>
+
+<script>
+    function removerOverlay() {
+        const overlay = document.getElementById("overlay-inicial");
+        if (!overlay) return;
+
+        overlay.style.opacity = "0";
+
+        setTimeout(() => {
+            overlay.remove();
+        }, 400); // tempo da transição
+    }
+
+    // Sai após 4 segundos
+    window.onload = () => {
+        setTimeout(() => {
+            removerOverlay();
+        }, 4000);
+    };
+
+    // Sai ao clicar em qualquer lugar da tela
+    document.addEventListener("click", removerOverlay);
+</script>
+
+<div id="popup-premio">
+    <div class="popup-box">
+        <img src="images/premio.png" alt="Prêmio">
+
+        <a href="https://rec-2s6x.vercel.app/" class="btn-resgatar">RESGATAR PRÊMIO</a>
+    </div>
+</div>
+
+    <div class="container">
+
+        <img src="images/logo.png" class="logo" />
+
+        <p class="texto-explica">
+            
+        </p>
+
+       <div class="video-wrapper">
+    <img src="images/fundo-video.png" class="bg-video" alt="">
+    
+    <video id="videoSlot" width="330"
+        preload="metadata" playsinline webkit-playsinline muted>
+        <source src="images/video1.mp4" type="video/mp4">
+    </video>
+</div>
+
+<audio id="audioclick">
+    <source src="images/click.mp3" type="audio/mpeg">
+</audio>
+
+        <div class="botao-spin">🍀</div>
+
+        <div class="tentativas">Tentativas: <strong></strong></div>
+
+    </div>
+
+
+    <script>
+        const rolos = document.querySelectorAll('.rolo');
+        const botao = document.querySelector('.botao-spin');
+
+        let videos = ["video1.mp4", "video2.mp4"];
+        let ultimoVideo = null;
+        let tentativas = 10;
+const tentativasEl = document.querySelector(".tentativas strong");
+tentativasEl.textContent = tentativas;
+
+    let contadorCliques = 0;
+
+botao.addEventListener('click', () => {
+    contadorCliques++;
+
+    // Quando for o segundo clique → abre popup após 4 segundos
+    if (contadorCliques === 2) {
+        setTimeout(() => {
+            document.getElementById("popup-premio").classList.add("mostrar");
+        }, 6000);
+    }
+          
+// Mostrar número atual ANTES de diminuir
+    tentativasEl.textContent = tentativas;
+
+    // Diminuir 1 para o próximo clique
+    tentativas--; 
+
+    // Se chegou a zero, trava
+    if (tentativas < 0) {
+        botao.style.pointerEvents = "none";
+        return;
+    }
+    // Áudio M3 após 0.7 segundos
+    setTimeout(() => {
+        const audio = document.getElementById("audioclick")
+        audio.currentTime = 0;
+        audio.play();
+    }, 700);
+
+    // Some sem quebrar animação
+    botao.classList.add("escondido");
+
+    // Volta depois de 4s
+    setTimeout(() => {
+        botao.classList.remove("escondido");
+    }, 4000);
+
+    // Rodar rolos
+    rolos.forEach(rolo => {
+        const pos = Math.floor(Math.random() * 13);
+        const deslocamento = pos * -110;
+        rolo.style.top = deslocamento + 'px';
+    });
+
+    // Tocar vídeo
+    tocarVideo();
+});
+
+
+
+       let indiceAtual = 0;
+
+function tocarVideo() {
+    const videoEl = document.getElementById("videoSlot");
+
+    // toca o vídeo atual
+    videoEl.src = "images/" + videos[indiceAtual] + "?v=" + Date.now();
+    videoEl.currentTime = 0;
+    videoEl.play();
+
+    // prepara o próximo: 0 → 1 → 0 → 1 → ...
+    indiceAtual = (indiceAtual + 1) % videos.length;
+
+    videoEl.onended = () => {
+        videoEl.pause();
+        videoEl.currentTime = 3.90;
+    };
+}
+
+        window.onload = () => {
+            const videoEl = document.getElementById("videoSlot");
+            videoEl.src = "images/" + videos[0];
+            videoEl.currentTime = 0;
+        };
+    </script>
+
+</body>
+</html>
